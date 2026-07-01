@@ -1,4 +1,4 @@
-name: 🚀 Build and Deploy Portfolio Application
+name: 🚀 Build and Deploy Hippios API
 
 on:
   push:
