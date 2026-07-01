@@ -3,16 +3,6 @@ var express = require("express");
 var router = express.Router();
 var pool = require("../db");
 
-// Initialise la table au démarrage de la route
-// pool.query(`
-//   CREATE TABLE IF NOT EXISTS horses (
-//     id   SERIAL PRIMARY KEY,
-//     name VARCHAR(100) NOT NULL,
-//     breed VARCHAR(100),
-//     created_at TIMESTAMPTZ DEFAULT NOW()
-//   )
-// `).then(() => console.log("✅ Table horses prête"));
-
 // GET /horses — liste tous les chevaux
 router.get("/", async (req, res) => {
   try {
