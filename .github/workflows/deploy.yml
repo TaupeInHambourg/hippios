@@ -16,7 +16,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/projects/hippios-api
+            cd /home/ubuntu/projects/hippios
             docker compose pull
             docker compose down
             docker compose up -d --remove-orphans

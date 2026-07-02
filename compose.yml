@@ -3,6 +3,8 @@ services:
     image: postgres:16-alpine
     container_name: hippios-postgres
     restart: unless-stopped
+    env_file:
+      - ./.env
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -17,34 +19,62 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      -  network-hippios-api
+      -  network-hippios
 
   api:
     build:
-      context: .
+      context: ./api
       dockerfile: Dockerfile
       target: dev
     container_name: hippios-api
     restart: unless-stopped
     env_file:
-      - .env
+      - ./.env
     environment:
       DB_HOST: postgres
     ports:
       - "${PORT:-3000}:3000"
     volumes:
-      - .:/app
+      - ./api:/app
+      - /app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
     command: npm run dev
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     networks:
-      -  network-hippios-api
+      -  network-hippios
+  
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      target: dev
+    container_name: hippios-front
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - "${FRONT_PORT:-3001}:3000"
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      api:
+        condition: service_healthy
+    command: npm run dev
+    networks:
+      -  network-hippios
 
 volumes:
   pgdata:
-  node_modules:
 
 networks:
-  network-hippios-api:
-   external: true
+  network-hippios:
+    external: true
