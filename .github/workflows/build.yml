@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: ./api
-          file: ./api/dockerfile
+          file: ./api/Dockerfile
           target: prod
           push: true
           tags: ${{ env.registry }}/${{ env.IMAGE_REPOSITORY }}-api:latest
