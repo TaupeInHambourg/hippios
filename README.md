@@ -121,15 +121,15 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:3000/horses" `
 Depuis **un terminal Unix** (macOS / Linux / WSL) :
 
 ```bash
-curl -X POST http://localhost:3000/horses \
+curl -X POST https://api.hippios.audrey.norvez.mds-nantes.fr/horses \
   -H "Content-Type: application/json" \
-  -d '{"name": "Tornado", "breed": "Andalou"}'
+  -d '{"name": "Spirit", "breed": "Mustang"}'
 
-curl -X POST http://localhost:3000/horses \
+curl -X POST https://api.hippios.audrey.norvez.mds-nantes.fr/horses \
   -H "Content-Type: application/json" \
   -d '{"name": "Angus", "breed": "Shire"}'
 
-curl -X POST http://localhost:3000/horses \
+curl -X POST https://api.hippios.audrey.norvez.mds-nantes.fr/horses \
   -H "Content-Type: application/json" \
   -d '{"name": "Epona", "breed": "Clydesdale"}'
 ```
