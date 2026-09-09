@@ -6,7 +6,7 @@ var pool = require("../db");
 // GET /horses — liste tous les chevaux
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM horses ORDER BY created_at DESC");
+    const result = await pool.query("SELECT name, breed FROM horses ORDER BY created_at DESC");
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query("SELECT * FROM horses WHERE id=$1", [id]);
+    const result = await pool.query("SELECT name, breed FROM horses WHERE id=$1", [id]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Horse not found" });
     }
