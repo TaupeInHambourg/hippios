@@ -13,10 +13,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET /horses/:id — récupère un cheval par son ID
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("SELECT * FROM horses WHERE id=$1", [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Horse not found" });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST /horses — ajoute un cheval
 router.post("/", async (req, res) => {
   const { name, breed } = req.body;
-  if (!name) return res.status(400).json({ error: "name est requis" });
+  if (!name) return res.status(400).json({ error: "name is required" });
 
   try {
     const result = await pool.query(
