@@ -1,6 +1,6 @@
 "use client"
 
-import { use } from "react"
+import { use, useEffect, useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -12,148 +12,149 @@ import { SpeedIndicator } from "@/components/speed-indicator"
 import { Navbar } from "@/components/navbar"
 import { BackButton } from "@/components/back-button"
 
-const chevauxData = [
-  {
-    id: 1,
-    nom: "Eclipse Royale",
-    race: "Pur-sang Arabe",
-    age: "5 ans",
-    etatSante: "Bon état",
-    statut: "bon",
-    image: "/Cheval1.jpg",
-    temperature: { valeur: 37.8, unite: "°C", heure: "10h30" },
-    speed: 12,
-    rythmeCardiaque: {
-      valeurs: [32, 35, 38, 42, 39, 36, 34],
-      horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
-    },
-    historique: {
-      hier: {
-        temperature: [37.5, 37.8, 38.0, 37.9, 37.7],
-        rythmeCardiaque: [34, 36, 39, 38, 35],
-        speed: [0, 10, 15, 8, 0],
-        horaires: ["8h", "10h", "12h", "14h", "16h"],
-      },
-      semaine: {
-        temperature: [37.6, 37.8, 37.5, 37.9, 38.1, 37.7, 37.8],
-        rythmeCardiaque: [33, 35, 34, 38, 40, 36, 34],
-        speed: [5, 12, 8, 15, 18, 10, 12],
-        jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-      },
-      mois: {
-        temperature: [37.5, 37.7, 37.8, 37.6],
-        rythmeCardiaque: [34, 36, 38, 35],
-        speed: [10, 12, 15, 11],
-        semaines: ["S1", "S2", "S3", "S4"],
-      },
-    },
-  },
-  {
-    id: 2,
-    nom: "Thunder Storm",
-    race: "Frison",
-    age: "7 ans",
-    etatSante: "Moyen",
-    statut: "moyen",
-    image: "/Cheval2.jpg",
-    temperature: { valeur: 37.2, unite: "°C", heure: "10h15" },
-    speed: 0,
-    rythmeCardiaque: {
-      valeurs: [30, 33, 36, 40, 38, 35, 32],
-      horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
-    },
-    historique: {
-      hier: {
-        temperature: [37.0, 37.2, 37.3, 37.1, 37.0],
-        rythmeCardiaque: [30, 32, 35, 33, 31],
-        speed: [0, 8, 12, 6, 0],
-        horaires: ["8h", "10h", "12h", "14h", "16h"],
-      },
-      semaine: {
-        temperature: [37.1, 37.2, 37.0, 37.3, 37.4, 37.1, 37.2],
-        rythmeCardiaque: [31, 33, 32, 35, 37, 33, 32],
-        speed: [4, 10, 7, 13, 16, 9, 0],
-        jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-      },
-      mois: {
-        temperature: [37.0, 37.2, 37.3, 37.1],
-        rythmeCardiaque: [32, 34, 36, 33],
-        speed: [9, 11, 14, 10],
-        semaines: ["S1", "S2", "S3", "S4"],
-      },
-    },
-  },
-  {
-    id: 3,
-    nom: "Belle de Jour",
-    race: "Quarter Horse",
-    age: "4 ans",
-    etatSante: "Alerte - surveillance",
-    statut: "alerte",
-    image: "/Cheval3.jpg",
-    temperature: { valeur: 39.1, unite: "°C", heure: "10h45" },
-    speed: 18,
-    rythmeCardiaque: {
-      valeurs: [45, 50, 55, 60, 58, 52, 48],
-      horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
-    },
-    historique: {
-      hier: {
-        temperature: [38.8, 39.0, 39.2, 39.1, 38.9],
-        rythmeCardiaque: [48, 52, 58, 55, 50],
-        speed: [0, 15, 20, 12, 0],
-        horaires: ["8h", "10h", "12h", "14h", "16h"],
-      },
-      semaine: {
-        temperature: [38.7, 38.9, 38.8, 39.0, 39.2, 39.0, 39.1],
-        rythmeCardiaque: [46, 50, 48, 55, 60, 52, 48],
-        speed: [8, 18, 12, 22, 25, 15, 18],
-        jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-      },
-      mois: {
-        temperature: [38.6, 38.8, 39.0, 39.1],
-        rythmeCardiaque: [45, 50, 55, 52],
-        speed: [14, 17, 20, 18],
-        semaines: ["S1", "S2", "S3", "S4"],
-      },
-    },
-  },
-  {
-    id: 4,
-    nom: "Midnight Shadow",
-    race: "Lipizzan",
-    age: "6 ans",
-    etatSante: "Bon état",
-    statut: "bon",
-    image: "/Cheval4.jpg",
-    temperature: { valeur: 37.5, unite: "°C", heure: "10h00" },
-    speed: 3,
-    rythmeCardiaque: {
-      valeurs: [31, 34, 37, 41, 38, 35, 33],
-      horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
-    },
-    historique: {
-      hier: {
-        temperature: [37.3, 37.5, 37.7, 37.6, 37.4],
-        rythmeCardiaque: [32, 34, 38, 36, 33],
-        speed: [0, 11, 16, 9, 0],
-        horaires: ["8h", "10h", "12h", "14h", "16h"],
-      },
-      semaine: {
-        temperature: [37.4, 37.5, 37.3, 37.6, 37.8, 37.5, 37.5],
-        rythmeCardiaque: [32, 34, 33, 37, 39, 35, 33],
-        speed: [6, 13, 9, 17, 19, 11, 3],
-        jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-      },
-      mois: {
-        temperature: [37.3, 37.5, 37.6, 37.5],
-        rythmeCardiaque: [33, 35, 37, 34],
-        speed: [11, 13, 16, 12],
-        semaines: ["S1", "S2", "S3", "S4"],
-      },
-    },
-  },
-]
+// const chevauxData = [
+//   {
+//     id: 1,
+//     nom: "Eclipse Royale",
+//     race: "Pur-sang Arabe",
+//     age: "5 ans",
+//     etatSante: "Bon état",
+//     statut: "bon",
+//     image: "/Cheval1.jpg",
+//     temperature: { valeur: 37.8, unite: "°C", heure: "10h30" },
+//     speed: 12,
+//     rythmeCardiaque: {
+//       valeurs: [32, 35, 38, 42, 39, 36, 34],
+//       horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
+//     },
+//     historique: {
+//       hier: {
+//         temperature: [37.5, 37.8, 38.0, 37.9, 37.7],
+//         rythmeCardiaque: [34, 36, 39, 38, 35],
+//         speed: [0, 10, 15, 8, 0],
+//         horaires: ["8h", "10h", "12h", "14h", "16h"],
+//       },
+//       semaine: {
+//         temperature: [37.6, 37.8, 37.5, 37.9, 38.1, 37.7, 37.8],
+//         rythmeCardiaque: [33, 35, 34, 38, 40, 36, 34],
+//         speed: [5, 12, 8, 15, 18, 10, 12],
+//         jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+//       },
+//       mois: {
+//         temperature: [37.5, 37.7, 37.8, 37.6],
+//         rythmeCardiaque: [34, 36, 38, 35],
+//         speed: [10, 12, 15, 11],
+//         semaines: ["S1", "S2", "S3", "S4"],
+//       },
+//     },
+//   },
+//   {
+//     id: 2,
+//     nom: "Thunder Storm",
+//     race: "Frison",
+//     age: "7 ans",
+//     etatSante: "Moyen",
+//     statut: "moyen",
+//     image: "/Cheval2.jpg",
+//     temperature: { valeur: 37.2, unite: "°C", heure: "10h15" },
+//     speed: 0,
+//     rythmeCardiaque: {
+//       valeurs: [30, 33, 36, 40, 38, 35, 32],
+//       horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
+//     },
+//     historique: {
+//       hier: {
+//         temperature: [37.0, 37.2, 37.3, 37.1, 37.0],
+//         rythmeCardiaque: [30, 32, 35, 33, 31],
+//         speed: [0, 8, 12, 6, 0],
+//         horaires: ["8h", "10h", "12h", "14h", "16h"],
+//       },
+//       semaine: {
+//         temperature: [37.1, 37.2, 37.0, 37.3, 37.4, 37.1, 37.2],
+//         rythmeCardiaque: [31, 33, 32, 35, 37, 33, 32],
+//         speed: [4, 10, 7, 13, 16, 9, 0],
+//         jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+//       },
+//       mois: {
+//         temperature: [37.0, 37.2, 37.3, 37.1],
+//         rythmeCardiaque: [32, 34, 36, 33],
+//         speed: [9, 11, 14, 10],
+//         semaines: ["S1", "S2", "S3", "S4"],
+//       },
+//     },
+//   },
+//   {
+//     id: 3,
+//     nom: "Belle de Jour",
+//     race: "Quarter Horse",
+//     age: "4 ans",
+//     etatSante: "Alerte - surveillance",
+//     statut: "alerte",
+//     image: "/Cheval3.jpg",
+//     temperature: { valeur: 39.1, unite: "°C", heure: "10h45" },
+//     speed: 18,
+//     rythmeCardiaque: {
+//       valeurs: [45, 50, 55, 60, 58, 52, 48],
+//       horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
+//     },
+//     historique: {
+//       hier: {
+//         temperature: [38.8, 39.0, 39.2, 39.1, 38.9],
+//         rythmeCardiaque: [48, 52, 58, 55, 50],
+//         speed: [0, 15, 20, 12, 0],
+//         horaires: ["8h", "10h", "12h", "14h", "16h"],
+//       },
+//       semaine: {
+//         temperature: [38.7, 38.9, 38.8, 39.0, 39.2, 39.0, 39.1],
+//         rythmeCardiaque: [46, 50, 48, 55, 60, 52, 48],
+//         speed: [8, 18, 12, 22, 25, 15, 18],
+//         jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+//       },
+//       mois: {
+//         temperature: [38.6, 38.8, 39.0, 39.1],
+//         rythmeCardiaque: [45, 50, 55, 52],
+//         speed: [14, 17, 20, 18],
+//         semaines: ["S1", "S2", "S3", "S4"],
+//       },
+//     },
+//   },
+//   {
+//     id: 4,
+//     nom: "Midnight Shadow",
+//     race: "Lipizzan",
+//     age: "6 ans",
+//     etatSante: "Bon état",
+//     statut: "bon",
+//     image: "/Cheval4.jpg",
+//     temperature: { valeur: 37.5, unite: "°C", heure: "10h00" },
+//     speed: 3,
+//     rythmeCardiaque: {
+//       valeurs: [31, 34, 37, 41, 38, 35, 33],
+//       horaires: ["6h", "7h", "8h", "9h", "10h", "11h", "12h"],
+//     },
+//     historique: {
+//       hier: {
+//         temperature: [37.3, 37.5, 37.7, 37.6, 37.4],
+//         rythmeCardiaque: [32, 34, 38, 36, 33],
+//         speed: [0, 11, 16, 9, 0],
+//         horaires: ["8h", "10h", "12h", "14h", "16h"],
+//       },
+//       semaine: {
+//         temperature: [37.4, 37.5, 37.3, 37.6, 37.8, 37.5, 37.5],
+//         rythmeCardiaque: [32, 34, 33, 37, 39, 35, 33],
+//         speed: [6, 13, 9, 17, 19, 11, 3],
+//         jours: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+//       },
+//       mois: {
+//         temperature: [37.3, 37.5, 37.6, 37.5],
+//         rythmeCardiaque: [33, 35, 37, 34],
+//         speed: [11, 13, 16, 12],
+//         semaines: ["S1", "S2", "S3", "S4"],
+//       },
+//     },
+//   },
+// ]
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000"
 
 export default function ChevalDetailPage({
   params,
@@ -161,16 +162,27 @@ export default function ChevalDetailPage({
   params: Promise<{ id: string }>
 }) {
   const resolvedParams = use(params)
-  const cheval = chevauxData.find((c) => c.id === Number.parseInt(resolvedParams.id))
+  // const cheval = chevauxData.find((c) => c.id === Number.parseInt(resolvedParams.id))
+  const [cheval, setCheval] = useState<any>(null)
 
+  useEffect(() => {
+    fetch(`${API_URL}/horses/${resolvedParams.id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Erreur ${res.status}`)
+        return res.json()
+      })
+      .then((data) => setCheval(data))
+      .catch((err) => console.error(err))
+  }, [resolvedParams.id])
+  
   if (!cheval) {
     return <div>Cheval non trouvé</div>
   }
 
   const downloadHistoricalPDF = () => {
     const pdfContent = `
-RAPPORT DE SANTÉ - ${cheval.nom}
-Race: ${cheval.race}
+RAPPORT DE SANTÉ - ${cheval.name}
+Race: ${cheval.breed}
 Âge: ${cheval.age}
 État de santé: ${cheval.etatSante}
 
@@ -178,28 +190,28 @@ Race: ${cheval.race}
 
 DONNÉES D'HIER
 ==============================
-Horaires: ${cheval.historique.hier.horaires.join(", ")}
-Température (°C): ${cheval.historique.hier.temperature.join(", ")}
-Rythme cardiaque (bpm): ${cheval.historique.hier.rythmeCardiaque.join(", ")}
-Vitesse (km/h): ${cheval.historique.hier.speed.join(", ")}
+Horaires: ${cheval.historique?.hier?.horaires?.join(", ")}
+Température (°C): ${cheval.historique?.hier?.temperature?.join(", ")}
+Rythme cardiaque (bpm): ${cheval.historique?.hier?.rythmeCardiaque?.join(", ")}
+Vitesse (km/h): ${cheval.historique?.hier?.speed?.join(", ")}
 
 ==============================
 
 DONNÉES DE LA SEMAINE
 ==============================
-Jours: ${cheval.historique.semaine.jours.join(", ")}
-Température (°C): ${cheval.historique.semaine.temperature.join(", ")}
-Rythme cardiaque (bpm): ${cheval.historique.semaine.rythmeCardiaque.join(", ")}
-Vitesse (km/h): ${cheval.historique.semaine.speed.join(", ")}
+Jours: ${cheval.historique?.semaine.jours.join(", ")}
+Température (°C): ${cheval.historique?.semaine.temperature.join(", ")}
+Rythme cardiaque (bpm): ${cheval.historique?.semaine.rythmeCardiaque.join(", ")}
+Vitesse (km/h): ${cheval.historique?.semaine.speed.join(", ")}
 
 ==============================
 
 DONNÉES DU MOIS
 ==============================
-Semaines: ${cheval.historique.mois.semaines.join(", ")}
-Température (°C): ${cheval.historique.mois.temperature.join(", ")}
-Rythme cardiaque (bpm): ${cheval.historique.mois.rythmeCardiaque.join(", ")}
-Vitesse (km/h): ${cheval.historique.mois.speed.join(", ")}
+Semaines: ${cheval.historique?.mois.semaines.join(", ")}
+Température (°C): ${cheval.historique?.mois.temperature.join(", ")}
+Rythme cardiaque (bpm): ${cheval.historique?.mois.rythmeCardiaque.join(", ")}
+Vitesse (km/h): ${cheval.historique?.mois.speed.join(", ")}
 
 Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
     `.trim()
@@ -208,7 +220,7 @@ Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = `rapport-${cheval.nom.toLowerCase().replace(/\s+/g, "-")}-${Date.now()}.txt`
+    a.download = `rapport-${cheval.name.toLowerCase().replace(/\s+/g, "-")}-${Date.now()}.txt`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -223,8 +235,8 @@ Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
         {/* Image de fond */}
         <div className="relative h-48 w-full overflow-hidden">
           <Image
-            src={cheval.image}
-            alt={cheval.nom}
+            src={cheval.image ?? "N/A"}
+            alt={cheval.name}
             fill
             className="object-cover"
             priority
@@ -242,9 +254,9 @@ Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
 
               {/* Informations du cheval */}
               <div className="pb-2">
-                <h1 className="text-2xl font-bold text-white mb-1">{cheval.nom}</h1>
+                <h1 className="text-2xl font-bold text-white mb-1">{cheval.name}</h1>
                 <p className="text-sm text-white/90">
-                  {cheval.race} • {cheval.age}
+                  {cheval.breed} • {cheval.age ?? "N/A"}
                 </p>
                 <div className="mt-2">
                   <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium text-white ${
@@ -252,7 +264,7 @@ Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
                     cheval.statut === "moyen" ? "bg-equestre-orange" :
                     "bg-equestre-alert"
                   }`}>
-                    {cheval.etatSante}
+                    {cheval.etatSante ?? "N/A"}
                   </span>
                 </div>
               </div>
@@ -314,9 +326,9 @@ Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
                         </div>
                         <h3 className="text-xs font-semibold text-equestre-primary">Température</h3>
                       </div>
-                      <span className="text-[10px] text-equestre-muted bg-equestre-soft/50 px-2 py-0.5 rounded-full">{cheval.temperature.heure}</span>
+                      <span className="text-[10px] text-equestre-muted bg-equestre-soft/50 px-2 py-0.5 rounded-full">{cheval.temperature?.heure ?? "N/A"}</span>
                     </div>
-                    <TemperatureGauge temperature={cheval.temperature.valeur} time={cheval.temperature.heure} />
+                    <TemperatureGauge temperature={cheval.temperature?.valeur ?? "N/A"}time={cheval.temperature?.heure ?? "N/A"} />
                   </div>
 
                   <div className="group relative overflow-hidden rounded-xl border border-equestre-border/50 bg-gradient-to-br from-white to-equestre-soft/20 p-3 hover:shadow-md hover:border-equestre-primary/50 transition-all duration-300">
@@ -329,7 +341,7 @@ Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
                       </div>
                       <span className="text-[10px] text-equestre-muted bg-equestre-soft/50 px-2 py-0.5 rounded-full">km/h</span>
                     </div>
-                    <SpeedIndicator speed={cheval.speed} />
+                    <SpeedIndicator speed={cheval.speed ?? "N/A"} />
                   </div>
                 </div>
 
@@ -344,10 +356,14 @@ Rapport généré le ${new Date().toLocaleDateString("fr-FR")}
                     <span className="text-[10px] text-equestre-muted bg-equestre-soft/50 px-2 py-0.5 rounded-full">Temps réel</span>
                   </div>
                   <div className="h-28">
-                    <HeartRateChart
-                      values={cheval.rythmeCardiaque.valeurs.slice(-5)}
-                      labels={cheval.rythmeCardiaque.horaires.slice(-5)}
-                    />
+                    {cheval.rythmeCardiaque?.valeurs && cheval.rythmeCardiaque?.horaires ? (
+                      <HeartRateChart
+                        values={cheval.rythmeCardiaque.valeurs.slice(-5)}
+                        labels={cheval.rythmeCardiaque.horaires.slice(-5)}
+                      />
+                    ) : (
+                      <p className="text-xs text-equestre-muted">Données non disponibles</p>
+                    )}
                   </div>
                 </div>
               </div>

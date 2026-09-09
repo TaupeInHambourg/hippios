@@ -7,7 +7,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
- 
+  watchOptions: {
+    pollIntervalMs: 1000,
+  },
+
 }
 
 export default nextConfig
