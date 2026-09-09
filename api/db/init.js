@@ -1,16 +1,24 @@
+const fs = require("fs");
+const path = require("path");
 const pool = require("../db");
 
 async function initDB() {
   try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS horses (
-        id         SERIAL PRIMARY KEY,
-        name       VARCHAR(100) NOT NULL,
-        breed      VARCHAR(100),
-        created_at TIMESTAMPTZ DEFAULT NOW()
-      )
-    `);
+    // 1. Création des tables
+    const schemaPath = path.join(__dirname, "init_schema.sql");
+    const schema = fs.readFileSync(schemaPath, "utf8");
+
+    await pool.query(schema);
+
     console.log("✅ Tables initialisées");
+
+    // 2. Insertion des données
+    const seedPath = path.join(__dirname, "seed.sql");
+    const seed = fs.readFileSync(seedPath, "utf8");
+
+    await pool.query(seed);
+
+    console.log("✅ Données insérées");
   } catch (err) {
     console.error("❌ Erreur initialisation DB :", err.message);
     process.exit(1);
