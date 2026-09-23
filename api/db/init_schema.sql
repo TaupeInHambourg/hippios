@@ -4,7 +4,7 @@
 -- Extension pour générer des UUID si tu préfères des UUID plutôt que des SERIAL
 -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
@@ -18,13 +18,13 @@ CREATE TABLE "user" (
     created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE TABLE breed (
+CREATE TABLE IF NOT EXISTS "breed" (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE TABLE horse (
+CREATE TABLE IF NOT EXISTS horse (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     age INTEGER CHECK (age >= 0),
@@ -40,7 +40,7 @@ CREATE TABLE horse (
 );
 
 -- Une session d'activité (sortie, entraînement, compétition...)
-CREATE TABLE horse_activity (
+CREATE TABLE IF NOT EXISTS horse_activity (
     id SERIAL PRIMARY KEY,
     id_horse INTEGER NOT NULL REFERENCES horse(id) ON DELETE CASCADE,
     type VARCHAR(50), -- sortie, entrainement, competition...
@@ -53,7 +53,7 @@ CREATE TABLE horse_activity (
 
 -- Relevés ponctuels de santé/vitaux, rattachés à un cheval
 -- et optionnellement à une activité en cours
-CREATE TABLE horse_health_record (
+CREATE TABLE IF NOT EXISTS horse_health_record (
     id SERIAL PRIMARY KEY,
     id_horse INTEGER NOT NULL REFERENCES horse(id) ON DELETE CASCADE,
     id_activity INTEGER REFERENCES horse_activity(id) ON DELETE SET NULL,
@@ -65,7 +65,7 @@ CREATE TABLE horse_health_record (
     created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE TABLE document (
+CREATE TABLE IF NOT EXISTS document (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     content TEXT,
@@ -75,7 +75,7 @@ CREATE TABLE document (
     CHECK (id_user IS NOT NULL OR id_horse IS NOT NULL)
 );
 
-CREATE TABLE calendar (
+CREATE TABLE IF NOT EXISTS calendar (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     date TIMESTAMP NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE calendar (
     CHECK (id_user IS NOT NULL OR id_horse IS NOT NULL)
 );
 
-CREATE TABLE contact (
+CREATE TABLE IF NOT EXISTS contact (
     id SERIAL PRIMARY KEY,
     role VARCHAR(100), -- veterinaire, marechal-ferrant...
     name VARCHAR(150) NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE contact (
     created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE TABLE payment (
+CREATE TABLE IF NOT EXISTS payment (
     id SERIAL PRIMARY KEY,
     id_user INTEGER NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     stripe_customer_id VARCHAR(100),
@@ -107,7 +107,7 @@ CREATE TABLE payment (
     created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE TABLE subscription (
+CREATE TABLE IF NOT EXISTS subscription (
     id SERIAL PRIMARY KEY,
     id_user INTEGER NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     stripe_subscription_id VARCHAR(100) NOT NULL UNIQUE,
@@ -118,16 +118,16 @@ CREATE TABLE subscription (
 );
 
 -- Index utiles pour les recherches fréquentes
-CREATE INDEX idx_horse_id_breed ON horse(id_breed);
-CREATE INDEX idx_horse_id_user ON horse(id_user);
-CREATE INDEX idx_horse_activity_id_horse ON horse_activity(id_horse);
-CREATE INDEX idx_horse_health_record_id_horse ON horse_health_record(id_horse);
-CREATE INDEX idx_horse_health_record_id_activity ON horse_health_record(id_activity);
-CREATE INDEX idx_horse_health_record_recorded_at ON horse_health_record(recorded_at);
-CREATE INDEX idx_document_id_user ON document(id_user);
-CREATE INDEX idx_document_id_horse ON document(id_horse);
-CREATE INDEX idx_calendar_id_user ON calendar(id_user);
-CREATE INDEX idx_calendar_id_horse ON calendar(id_horse);
-CREATE INDEX idx_contact_id_user ON contact(id_user);
-CREATE INDEX idx_payment_id_user ON payment(id_user);
-CREATE INDEX idx_subscription_id_user ON subscription(id_user);
+CREATE INDEX IF NOT EXISTS idx_horse_id_breed ON horse(id_breed);
+CREATE INDEX IF NOT EXISTS idx_horse_id_user ON horse(id_user);
+CREATE INDEX IF NOT EXISTS idx_horse_activity_id_horse ON horse_activity(id_horse);
+CREATE INDEX IF NOT EXISTS idx_horse_health_record_id_horse ON horse_health_record(id_horse);
+CREATE INDEX IF NOT EXISTS idx_horse_health_record_id_activity ON horse_health_record(id_activity);
+CREATE INDEX IF NOT EXISTS idx_horse_health_record_recorded_at ON horse_health_record(recorded_at);
+CREATE INDEX IF NOT EXISTS idx_document_id_user ON document(id_user);
+CREATE INDEX IF NOT EXISTS idx_document_id_horse ON document(id_horse);
+CREATE INDEX IF NOT EXISTS idx_calendar_id_user ON calendar(id_user);
+CREATE INDEX IF NOT EXISTS idx_calendar_id_horse ON calendar(id_horse);
+CREATE INDEX IF NOT EXISTS idx_contact_id_user ON contact(id_user);
+CREATE INDEX IF NOT EXISTS idx_payment_id_user ON payment(id_user);
+CREATE INDEX IF NOT EXISTS idx_subscription_id_user ON subscription(id_user);
