@@ -1,0 +1,6 @@
+# Only run mobile checks when mobile files are staged
+git diff --cached --name-only | grep -q '^mobile/' || exit 0
+
+cd mobile
+npx lint-staged
+npm run typecheck

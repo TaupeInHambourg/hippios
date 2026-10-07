@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(rtk git commit:*)",
+      "Bash(rtk git push:*)",
+      "PowerShell(git commit:*)",
+      "PowerShell(git push:*)"
+    ]
+  }
+}
