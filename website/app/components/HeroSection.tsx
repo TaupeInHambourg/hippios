@@ -38,7 +38,7 @@ const HeroSection = () => {
           {/* CTA Button */}
           <div className="animate-fade-up animation-delay-600">
             <Button variant="default" size="lg" className="bg-secondary text-primary hover:bg-primary hover:text-secondary transition-colors">
-              Découvrir Stryde
+              Découvrir Hippios
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>

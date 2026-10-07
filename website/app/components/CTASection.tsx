@@ -11,7 +11,7 @@ const CTASection = () => {
               Prêt à surveiller la santé de votre cheval ?
             </h2>
             <p className="text-muted-foreground mb-8">
-              Rejoignez Stryde et bénéficiez d'un suivi connecté pour le bien-être
+              Rejoignez Hippios et bénéficiez d'un suivi connecté pour le bien-être
               de votre compagnon. Essai gratuit de 30 jours.
             </p>
 
