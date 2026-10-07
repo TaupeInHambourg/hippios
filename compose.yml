@@ -19,7 +19,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      -  network-hippios
+      - network-database
 
   api:
     build:
@@ -50,8 +50,9 @@ services:
       retries: 5
       start_period: 15s
     networks:
-      -  network-hippios
-  
+      - network-hippios
+      - network-database
+
   front:
     build:
       context: ./front
@@ -72,11 +73,35 @@ services:
         condition: service_healthy
     command: npm run dev
     networks:
-      -  network-hippios
+      - network-hippios
+
+  website:
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+      target: dev
+    container_name: hippios-website
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - "${WEBSITE_PORT:-3002}:3000"
+    volumes:
+      - ./website:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      api:
+        condition: service_healthy
+    command: npm run dev -- --hostname 0.0.0.0
+    networks:
+      - network-hippios
 
 volumes:
   pgdata:
 
 networks:
   network-hippios:
+    external: true
+  network-database:
     external: true
