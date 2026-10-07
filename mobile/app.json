@@ -37,7 +37,10 @@
           "barcodeScannerEnabled": true
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-sharing",
+      "@config-plugins/react-native-pdf",
+      "@config-plugins/react-native-blob-util"
     ]
   }
 }

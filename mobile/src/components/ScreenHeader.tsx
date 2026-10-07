@@ -9,7 +9,7 @@ interface ScreenHeaderProps {
   title: string;
   showBack?: boolean;
   /** Overrides the default navigation back, e.g. to go back one step inside a screen. */
-  onBack?: () => void;
+  onBack?: (() => void) | undefined;
   actions?: ReactNode;
 }
 

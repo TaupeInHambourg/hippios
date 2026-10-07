@@ -13,6 +13,7 @@ export const COLORS = {
   border: "#7A7A7A",
   danger: "#D10000",
   warning: "#E8A317",
+  warningSoft: "#F8DFA0",
   shadow: "#000000",
   overlay: "rgba(18, 18, 18, 0.4)",
 } as const;

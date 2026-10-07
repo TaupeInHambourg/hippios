@@ -1,10 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { COLORS, FONT_SIZE, FONT_WEIGHT, SPACING, TOUCH_TARGET } from "@/lib/theme";
+import { COLORS, FONT_SIZE, FONT_WEIGHT, RADIUS, SPACING, TOUCH_TARGET } from "@/lib/theme";
 
 export interface SegmentedTab<T extends string> {
   label: string;
   value: T;
+  /** Shows an alert dot next to the label (e.g. a health warning). */
+  hasAlert?: boolean;
 }
 
 interface SegmentedTabsProps<T extends string> {
@@ -23,11 +25,15 @@ export function SegmentedTabs<T extends string>({ tabs, value, onChange }: Segme
           <Pressable
             key={tab.value}
             accessibilityRole="tab"
+            accessibilityLabel={tab.hasAlert ? `${tab.label}, alerte en cours` : tab.label}
             accessibilityState={{ selected: isActive }}
             onPress={() => onChange(tab.value)}
             style={styles.tab}
           >
-            <Text style={[styles.label, isActive && styles.labelActive]}>{tab.label}</Text>
+            <View style={styles.labelRow}>
+              <Text style={[styles.label, isActive && styles.labelActive]}>{tab.label}</Text>
+              {tab.hasAlert ? <View style={styles.alertDot} /> : null}
+            </View>
           </Pressable>
         );
       })}
@@ -43,6 +49,19 @@ const styles = StyleSheet.create({
   tab: {
     minHeight: TOUCH_TARGET,
     justifyContent: "center",
+  },
+  labelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: SPACING.sm,
+  },
+  alertDot: {
+    width: SPACING.lg,
+    height: SPACING.lg,
+    borderWidth: 3,
+    borderColor: COLORS.warningSoft,
+    borderRadius: RADIUS.full,
+    backgroundColor: COLORS.warning,
   },
   label: {
     paddingBottom: SPACING.xs,
