@@ -18,7 +18,14 @@ export const COLORS = {
   warning: "#E8A317",
   warningSoft: "#F8DFA0",
   shadow: "#000000",
+  dangerSurface: "#FDE4E4",
   overlay: "rgba(18, 18, 18, 0.4)",
+  card: "#FFFFFF",
+  // Chart series, validated with the dataviz palette checks (CVD, contrast vs card).
+  chartBar: "#6585E6",
+  chartNorm: "#D9469A",
+  chartHorse: "#1F8F3A",
+  chartGrid: "#E6E6E6",
 } as const;
 
 export const SPACING = {

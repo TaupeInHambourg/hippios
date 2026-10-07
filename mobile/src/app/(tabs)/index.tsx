@@ -23,6 +23,7 @@ export default function HomeScreen() {
   const horses = useHorseOverviews();
   const mostUrgentHorse = horses[0];
   const openHorses = () => router.push("/horses");
+  const openHorse = (id: string) => router.push({ pathname: "/horse/[id]", params: { id } });
 
   return (
     <Screen scrollable>
@@ -36,9 +37,13 @@ export default function HomeScreen() {
           <>
             <View style={styles.horses}>
               <HorsesStatusHeader horses={horses} onPress={openHorses} />
-              <HorseAvatarStrip horses={horses} onHorsePress={openHorses} />
+              <HorseAvatarStrip horses={horses} onHorsePress={(horse) => openHorse(horse.id)} />
             </View>
-            <HorseStatusCard horse={mostUrgentHorse} showBattery onPress={openHorses} />
+            <HorseStatusCard
+              horse={mostUrgentHorse}
+              showBattery
+              onPress={() => openHorse(mostUrgentHorse.id)}
+            />
           </>
         ) : (
           <Button label="Ajouter un cheval" onPress={() => router.push("/add")} />

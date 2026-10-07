@@ -1,11 +1,17 @@
 export { HorseAvatarStrip } from "./components/HorseAvatarStrip";
+export { HealthTab } from "./components/HealthTab";
 export { HorseForm } from "./components/HorseForm";
+export { HorseProfileHeader } from "./components/HorseProfileHeader";
 export { HorsesStatusHeader } from "./components/HorsesStatusHeader";
 export { HorseStatusCard } from "./components/HorseStatusCard";
+export { MetricDetailView } from "./components/MetricDetailView";
 export { SensorScanner } from "./components/SensorScanner";
 export { SyncIntro } from "./components/SyncIntro";
 export { SyncSuccess } from "./components/SyncSuccess";
 export { EMPTY_HORSE } from "./constants";
+export { METRIC_DEFINITIONS, isActivity, isMetricId } from "./detail/metrics";
+export type { Activity, HorseDetail, MetricId } from "./detail/types";
+export { useHorseDetail } from "./detail/useHorseDetail";
 export type { HorseOverview } from "./health/types";
 export { useHorseOverviews } from "./health/useHorseOverviews";
 export { HorsesProvider } from "./registry/HorsesProvider";

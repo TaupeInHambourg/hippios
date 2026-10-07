@@ -42,6 +42,7 @@ export default function TabsLayout() {
       {/* Reachable from the header actions, hidden from the tab bar. */}
       <Tabs.Screen name="account" options={{ href: null }} />
       <Tabs.Screen name="notifications" options={{ href: null }} />
+      <Tabs.Screen name="horse" options={{ href: null }} />
     </Tabs>
   );
 }

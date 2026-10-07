@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 
 import { COLORS, FONT_SIZE, FONT_WEIGHT, RADIUS, SPACING, TOUCH_TARGET } from "@/lib/theme";
 
-type ButtonVariant = "primary" | "outline";
+type ButtonVariant = "primary" | "outline" | "danger";
 
 interface ButtonProps {
   label: string;
@@ -20,8 +20,6 @@ export function Button({
   icon,
   disabled = false,
 }: ButtonProps) {
-  const isPrimary = variant === "primary";
-
   return (
     <Pressable
       accessibilityRole="button"
@@ -31,15 +29,13 @@ export function Button({
       onPress={onPress}
       style={({ pressed }) => [
         styles.base,
-        isPrimary ? styles.primary : styles.outline,
+        CONTAINER_STYLES[variant],
         pressed && styles.pressed,
         disabled && styles.disabled,
       ]}
     >
       {icon}
-      <Text style={[styles.label, isPrimary ? styles.primaryLabel : styles.outlineLabel]}>
-        {label}
-      </Text>
+      <Text style={[styles.label, LABEL_STYLES[variant]]}>{label}</Text>
     </Pressable>
   );
 }
@@ -83,4 +79,24 @@ const styles = StyleSheet.create({
   outlineLabel: {
     color: COLORS.primary,
   },
+  danger: {
+    borderWidth: 1.5,
+    borderColor: COLORS.danger,
+    backgroundColor: COLORS.dangerSurface,
+  },
+  dangerLabel: {
+    color: COLORS.danger,
+  },
 });
+
+const CONTAINER_STYLES = {
+  primary: styles.primary,
+  outline: styles.outline,
+  danger: styles.danger,
+} as const;
+
+const LABEL_STYLES = {
+  primary: styles.primaryLabel,
+  outline: styles.outlineLabel,
+  danger: styles.dangerLabel,
+} as const;

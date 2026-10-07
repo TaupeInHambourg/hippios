@@ -1,11 +1,15 @@
-import type { HealthLevel, HealthMetric, HorseOverview } from "./types";
+import type { HealthLevel, HorseOverview } from "./types";
 
 import type { StatusLevel } from "@/components/StatusDot";
 
 /** Lower is more urgent: horses in bad shape must be seen first. */
 const URGENCY: Record<StatusLevel, number> = { critical: 0, warning: 1, ok: 2, pending: 3 };
 
-export function getWorstLevel(metrics: readonly HealthMetric[]): HealthLevel {
+interface Leveled {
+  level: HealthLevel;
+}
+
+export function getWorstLevel(metrics: readonly Leveled[]): HealthLevel {
   if (metrics.some((metric) => metric.level === "critical")) return "critical";
   if (metrics.some((metric) => metric.level === "warning")) return "warning";
   return "ok";
@@ -16,7 +20,7 @@ export function getHorseStatus(horse: HorseOverview): StatusLevel {
 }
 
 /** Metrics needing attention, most urgent first. */
-export function getAlertMetrics(metrics: readonly HealthMetric[]): HealthMetric[] {
+export function getAlertMetrics<T extends Leveled>(metrics: readonly T[]): T[] {
   return metrics
     .filter((metric) => metric.level !== "ok")
     .sort((a, b) => URGENCY[a.level] - URGENCY[b.level]);

@@ -10,10 +10,18 @@ interface ScreenHeaderProps {
   showBack?: boolean;
   /** Overrides the default navigation back, e.g. to go back one step inside a screen. */
   onBack?: (() => void) | undefined;
+  /** Shown right after the title, e.g. a status icon. */
+  titleAccessory?: ReactNode;
   actions?: ReactNode;
 }
 
-export function ScreenHeader({ title, showBack = true, onBack, actions }: ScreenHeaderProps) {
+export function ScreenHeader({
+  title,
+  showBack = true,
+  onBack,
+  titleAccessory,
+  actions,
+}: ScreenHeaderProps) {
   const router = useRouter();
   const canGoBack = onBack !== undefined || router.canGoBack();
 
@@ -29,9 +37,12 @@ export function ScreenHeader({ title, showBack = true, onBack, actions }: Screen
           <Ionicons name="arrow-back" size={28} color={COLORS.foreground} />
         </Pressable>
       ) : null}
-      <Text accessibilityRole="header" style={styles.title}>
-        {title}
-      </Text>
+      <View style={styles.titleRow}>
+        <Text accessibilityRole="header" style={styles.title}>
+          {title}
+        </Text>
+        {titleAccessory}
+      </View>
       {actions}
     </View>
   );
@@ -51,8 +62,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: -SPACING.xs,
   },
-  title: {
+  titleRow: {
     flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: SPACING.md,
+  },
+  title: {
+    flexShrink: 1,
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.regular,
     color: COLORS.foreground,

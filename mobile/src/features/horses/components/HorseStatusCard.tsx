@@ -38,7 +38,7 @@ export function HorseStatusCard({ horse, showBattery = false, onPress }: HorseSt
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityHint="Affiche le détail de vos chevaux"
+      accessibilityHint="Affiche la fiche du cheval"
       onPress={onPress}
       style={({ pressed }) => [styles.card, pressed && styles.pressed]}
     >

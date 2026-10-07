@@ -20,7 +20,12 @@ export default function HorsesScreen() {
       <FlatList
         data={horses}
         keyExtractor={(horse) => horse.id}
-        renderItem={({ item }) => <HorseStatusCard horse={item} />}
+        renderItem={({ item }) => (
+          <HorseStatusCard
+            horse={item}
+            onPress={() => router.push({ pathname: "/horse/[id]", params: { id: item.id } })}
+          />
+        )}
         contentContainerStyle={styles.content}
         ListHeaderComponent={<ScreenHeader title="Mes chevaux" actions={<HeaderActions />} />}
         ListFooterComponent={

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { COLORS, FONT_SIZE, FONT_WEIGHT, RADIUS, SPACING, TOUCH_TARGET } from "@/lib/theme";
 
@@ -13,10 +13,17 @@ interface SegmentedTabsProps<T extends string> {
   tabs: readonly SegmentedTab<T>[];
   value: T;
   onChange: (value: T) => void;
+  /** Scrolls horizontally when the tabs do not fit the screen width. */
+  scrollable?: boolean;
 }
 
-export function SegmentedTabs<T extends string>({ tabs, value, onChange }: SegmentedTabsProps<T>) {
-  return (
+export function SegmentedTabs<T extends string>({
+  tabs,
+  value,
+  onChange,
+  scrollable = false,
+}: SegmentedTabsProps<T>) {
+  const tabList = (
     <View accessibilityRole="tablist" style={styles.container}>
       {tabs.map((tab) => {
         const isActive = tab.value === value;
@@ -38,6 +45,14 @@ export function SegmentedTabs<T extends string>({ tabs, value, onChange }: Segme
         );
       })}
     </View>
+  );
+
+  return scrollable ? (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      {tabList}
+    </ScrollView>
+  ) : (
+    tabList
   );
 }
 
