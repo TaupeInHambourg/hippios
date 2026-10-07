@@ -118,8 +118,8 @@ export default function HomePage() {
         {/* Logo */}
         <div className="mb-6">
           <Image
-            src="/Logo Stryde.png"
-            alt="Logo Stryde"
+            src="/Logo Hippios.png"
+            alt="Logo Hippios"
             width={150}
             height={50}
             className="object-contain"
