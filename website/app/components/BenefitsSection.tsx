@@ -32,7 +32,7 @@ const BenefitsSection = () => {
           {/* Left Content */}
           <div>
             <span className="text-primary font-medium text-sm uppercase tracking-wider mb-3 block">
-              Pourquoi Stryde
+              Pourquoi Hippios
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
               Un suivi de santé basé sur la science

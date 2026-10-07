@@ -12,15 +12,15 @@ import { useEffect, useState } from "react";
 const sensorImages = [
   {
     src: null,
-    alt: "Ceinture Stryde",
+    alt: "Ceinture Hippios",
   },
   {
     src: null,
-    alt: "Capteur avec ceinture Stryde",
+    alt: "Capteur avec ceinture Hippios",
   },
   {
     src: null,
-    alt: "Capteur Stryde",
+    alt: "Capteur Hippios",
   },
 ];
 
@@ -50,7 +50,7 @@ const SensorSection = () => {
               Technologie
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
-              Le capteur Stryde
+              Le capteur Hippios
             </h2>
             <p className="text-muted-foreground mb-6">
               Technologie de pointe pour surveiller la santé de vos chevaux en temps réel.
@@ -154,17 +154,17 @@ const SensorSection = () => {
           <div className="order-2 lg:order-2 relative h-[400px] lg:h-[500px] hidden lg:block">
             {/* Ceinture seule */}
             <div className="absolute left-0 top-0 w-40 lg:w-48 z-10 rotate-[-5deg] rounded-lg border border-border bg-card p-6 text-center text-sm text-muted-foreground">
-              Ceinture Stryde
+              Ceinture Hippios
             </div>
 
             {/* Image principale */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 lg:w-80 z-20 rounded-lg border border-border bg-card p-12 text-center text-sm text-muted-foreground">
-              Capteur avec ceinture Stryde
+              Capteur avec ceinture Hippios
             </div>
 
             {/* Capteur seul */}
             <div className="absolute right-0 bottom-0 w-32 lg:w-40 z-30 rounded-lg border border-border bg-card p-6 text-center text-sm text-muted-foreground">
-              Capteur Stryde
+              Capteur Hippios
             </div>
           </div>
         </div>
