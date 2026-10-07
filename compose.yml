@@ -53,28 +53,6 @@ services:
       - network-hippios
       - network-database
 
-  front:
-    build:
-      context: ./front
-      dockerfile: Dockerfile
-      target: dev
-    container_name: hippios-front
-    restart: unless-stopped
-    env_file:
-      - ./.env
-    ports:
-      - "${FRONT_PORT:-3001}:3000"
-    volumes:
-      - ./front:/app
-      - /app/node_modules
-      - /app/.next
-    depends_on:
-      api:
-        condition: service_healthy
-    command: npm run dev
-    networks:
-      - network-hippios
-
   website:
     build:
       context: ./website
