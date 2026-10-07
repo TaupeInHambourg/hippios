@@ -1,9 +1,13 @@
+export { HorseAvatarStrip } from "./components/HorseAvatarStrip";
 export { HorseForm } from "./components/HorseForm";
-export { HorseList } from "./components/HorseList";
+export { HorsesStatusHeader } from "./components/HorsesStatusHeader";
+export { HorseStatusCard } from "./components/HorseStatusCard";
 export { SensorScanner } from "./components/SensorScanner";
 export { SyncIntro } from "./components/SyncIntro";
 export { SyncSuccess } from "./components/SyncSuccess";
 export { EMPTY_HORSE } from "./constants";
+export type { HorseOverview } from "./health/types";
+export { useHorseOverviews } from "./health/useHorseOverviews";
 export { HorsesProvider } from "./registry/HorsesProvider";
 export { useHorses } from "./registry/useHorses";
 export type { Horse, HorseValues } from "./types";

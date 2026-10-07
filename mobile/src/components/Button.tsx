@@ -27,6 +27,7 @@ export function Button({
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
+      hitSlop={HIT_SLOP}
       onPress={onPress}
       style={({ pressed }) => [
         styles.base,
@@ -43,22 +44,26 @@ export function Button({
   );
 }
 
+// Compact 44pt button; the hit slop keeps the 48dp Android touch target.
+const BUTTON_HEIGHT = 44;
+const HIT_SLOP = (TOUCH_TARGET - BUTTON_HEIGHT) / 2;
+
 const styles = StyleSheet.create({
   base: {
-    minHeight: TOUCH_TARGET + SPACING.md,
+    minHeight: BUTTON_HEIGHT,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: SPACING.md,
+    gap: SPACING.sm,
     paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
+    paddingVertical: SPACING.sm,
     borderRadius: RADIUS.md,
   },
   primary: {
     backgroundColor: COLORS.primary,
   },
   outline: {
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: COLORS.primary,
   },
   pressed: {
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   label: {
-    fontSize: FONT_SIZE.md,
+    fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.bold,
     textAlign: "center",
   },

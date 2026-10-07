@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import type { AgendaEvent } from "../types";
-import { HorseChip } from "./HorseChip";
 
+import { HorseChip } from "@/components/HorseChip";
 import { formatLongDate, formatShortDate } from "@/lib/dates";
 import { COLORS, FONT_SIZE, FONT_WEIGHT, SPACING } from "@/lib/theme";
 

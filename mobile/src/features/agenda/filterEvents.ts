@@ -35,3 +35,12 @@ export function selectListedEvents(
     ? events.filter((event) => event.date >= today).sort((a, b) => +a.date - +b.date)
     : events.filter((event) => event.date < today).sort((a, b) => +b.date - +a.date);
 }
+
+/** The next `limit` events from today, soonest first. */
+export function getUpcomingEvents(
+  events: readonly AgendaEvent[],
+  now: Date,
+  limit: number,
+): AgendaEvent[] {
+  return selectListedEvents(events, "upcoming", null, now).slice(0, limit);
+}

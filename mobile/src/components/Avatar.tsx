@@ -8,15 +8,22 @@ interface AvatarProps {
   /** Placeholder icon until real pictures are available. */
   children: ReactNode;
   bordered?: boolean;
+  /** Ring color, e.g. the color associated with a horse. Defaults to primary. */
+  ringColor?: string;
 }
 
 // Decorative: the name is always displayed next to the avatar.
-export function Avatar({ size, children, bordered = false }: AvatarProps) {
+export function Avatar({ size, children, bordered = false, ringColor }: AvatarProps) {
   return (
     <View
       accessible={false}
       importantForAccessibility="no-hide-descendants"
-      style={[styles.avatar, bordered && styles.bordered, { width: size, height: size }]}
+      style={[
+        styles.avatar,
+        bordered && styles.bordered,
+        ringColor ? { borderColor: ringColor } : null,
+        { width: size, height: size },
+      ]}
     >
       {children}
     </View>
