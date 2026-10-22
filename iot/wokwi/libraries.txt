@@ -1,0 +1,6 @@
+# Bibliothèques Arduino utilisées par la simulation (format Wokwi)
+Adafruit MPU6050
+Adafruit Unified Sensor
+Adafruit BusIO
+OneWire
+DallasTemperature
