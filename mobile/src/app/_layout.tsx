@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
+import { EventsProvider } from "@/features/agenda";
 import { SessionProvider, useSession } from "@/features/auth";
 import { HorsesProvider } from "@/features/horses";
 
@@ -20,19 +21,21 @@ function RootNavigator() {
   const isSignedIn = user !== null;
 
   return (
-    // Remounting on sign-in/out drops the previous user's horses.
+    // Remounting on sign-in/out drops the previous user's horses and events.
     <HorsesProvider key={isSignedIn ? "signed-in" : "signed-out"}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Protected guard={isSignedIn}>
-          <Stack.Screen name="(tabs)" />
-          {/* Outside the tabs: the sensor sync screens have no tab bar. */}
-          <Stack.Screen name="scan-sensor" />
-          <Stack.Screen name="sync-success" />
-        </Stack.Protected>
-        <Stack.Protected guard={!isSignedIn}>
-          <Stack.Screen name="(auth)" />
-        </Stack.Protected>
-      </Stack>
+      <EventsProvider key={isSignedIn ? "signed-in" : "signed-out"}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Protected guard={isSignedIn}>
+            <Stack.Screen name="(tabs)" />
+            {/* Outside the tabs: the sensor sync screens have no tab bar. */}
+            <Stack.Screen name="scan-sensor" />
+            <Stack.Screen name="sync-success" />
+          </Stack.Protected>
+          <Stack.Protected guard={!isSignedIn}>
+            <Stack.Screen name="(auth)" />
+          </Stack.Protected>
+        </Stack>
+      </EventsProvider>
     </HorsesProvider>
   );
 }

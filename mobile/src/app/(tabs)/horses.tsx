@@ -6,12 +6,13 @@ import { Divider } from "@/components/Divider";
 import { HeaderActions } from "@/components/HeaderActions";
 import { Screen } from "@/components/Screen";
 import { ScreenHeader } from "@/components/ScreenHeader";
-import { MOCK_EVENTS, NextAppointments } from "@/features/agenda";
+import { NextAppointments, useAgendaEvents } from "@/features/agenda";
 import { HorseStatusCard, useHorseOverviews } from "@/features/horses";
 import { SPACING } from "@/lib/theme";
 
 export default function HorsesScreen() {
   const router = useRouter();
+  const { events } = useAgendaEvents();
   // Sorted most urgent first, so horses in bad shape are seen first.
   const horses = useHorseOverviews();
 
@@ -31,11 +32,7 @@ export default function HorsesScreen() {
         ListFooterComponent={
           <View style={styles.footer}>
             <Divider />
-            <NextAppointments
-              events={MOCK_EVENTS}
-              limit={1}
-              onSeeAll={() => router.push("/agenda")}
-            />
+            <NextAppointments events={events} limit={1} onSeeAll={() => router.push("/agenda")} />
             <Button label="Ajouter un cheval" onPress={() => router.push("/add")} />
           </View>
         }

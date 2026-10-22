@@ -43,6 +43,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="account" options={{ href: null }} />
       <Tabs.Screen name="notifications" options={{ href: null }} />
       <Tabs.Screen name="horse" options={{ href: null }} />
+      <Tabs.Screen name="add-event" options={{ href: null }} />
     </Tabs>
   );
 }

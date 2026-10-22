@@ -17,23 +17,21 @@ export function searchEvents(
   );
 }
 
-/**
- * A selected day shows that day's events; otherwise upcoming events are listed
- * soonest first and past events most recent first.
- */
+/** Upcoming events soonest first, past events most recent first. */
 export function selectListedEvents(
   events: readonly AgendaEvent[],
   period: EventPeriod,
-  selectedDay: Date | null,
   now: Date,
 ): AgendaEvent[] {
-  if (selectedDay) {
-    return events.filter((event) => isSameDay(event.date, selectedDay));
-  }
   const today = startOfDay(now);
   return period === "upcoming"
     ? events.filter((event) => event.date >= today).sort((a, b) => +a.date - +b.date)
     : events.filter((event) => event.date < today).sort((a, b) => +b.date - +a.date);
+}
+
+/** Events of one day, in chronological order. */
+export function getDayEvents(events: readonly AgendaEvent[], day: Date): AgendaEvent[] {
+  return events.filter((event) => isSameDay(event.date, day)).sort((a, b) => +a.date - +b.date);
 }
 
 /** The next `limit` events from today, soonest first. */
@@ -42,5 +40,5 @@ export function getUpcomingEvents(
   now: Date,
   limit: number,
 ): AgendaEvent[] {
-  return selectListedEvents(events, "upcoming", null, now).slice(0, limit);
+  return selectListedEvents(events, "upcoming", now).slice(0, limit);
 }

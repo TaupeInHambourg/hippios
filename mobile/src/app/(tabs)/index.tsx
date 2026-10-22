@@ -6,7 +6,7 @@ import { Divider } from "@/components/Divider";
 import { HeaderActions } from "@/components/HeaderActions";
 import { Screen } from "@/components/Screen";
 import { ScreenHeader } from "@/components/ScreenHeader";
-import { MOCK_EVENTS, NextAppointments } from "@/features/agenda";
+import { NextAppointments, useAgendaEvents } from "@/features/agenda";
 import { useSession } from "@/features/auth";
 import {
   HorseAvatarStrip,
@@ -18,6 +18,7 @@ import { SPACING } from "@/lib/theme";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { events } = useAgendaEvents();
   const { user } = useSession();
   // Sorted most urgent first: the first horse is the one needing attention.
   const horses = useHorseOverviews();
@@ -49,7 +50,7 @@ export default function HomeScreen() {
           <Button label="Ajouter un cheval" onPress={() => router.push("/add")} />
         )}
         <Divider />
-        <NextAppointments events={MOCK_EVENTS} limit={1} onSeeAll={() => router.push("/agenda")} />
+        <NextAppointments events={events} limit={1} onSeeAll={() => router.push("/agenda")} />
       </View>
     </Screen>
   );

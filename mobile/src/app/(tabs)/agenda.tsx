@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -7,7 +8,7 @@ import { Screen } from "@/components/Screen";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { SegmentedTabs, type SegmentedTab } from "@/components/SegmentedTabs";
 import { useSession } from "@/features/auth";
-import { AgendaView, MOCK_EVENTS, type EventPeriod } from "@/features/agenda";
+import { AgendaView, useAgendaEvents, type EventPeriod } from "@/features/agenda";
 import {
   DocumentsView,
   MOCK_DOCUMENTS,
@@ -26,15 +27,14 @@ const SECTIONS: readonly SegmentedTab<HistorySection>[] = [
   { label: "Agenda", value: "agenda" },
 ];
 
-// Wired once the event creation screen exists.
-const handleAddEvent = () => {};
-
 function getTitle(section: HistorySection, period: EventPeriod): string {
   if (section === "documents") return "Documents";
   return section === "agenda" && period === "upcoming" ? "Agenda" : "Historique";
 }
 
 export default function AgendaScreen() {
+  const router = useRouter();
+  const { events } = useAgendaEvents();
   const [section, setSection] = useState<HistorySection>("agenda");
   const [period, setPeriod] = useState<EventPeriod>("upcoming");
   const isDocumentsSection = section === "documents";
@@ -87,11 +87,11 @@ export default function AgendaScreen() {
   return (
     <Screen>
       <AgendaView
-        events={MOCK_EVENTS}
+        events={events}
         header={header}
         period={period}
         onPeriodChange={setPeriod}
-        onAddEvent={handleAddEvent}
+        onAddEvent={() => router.push("/add-event")}
       />
     </Screen>
   );
