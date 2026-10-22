@@ -1,0 +1,4 @@
+.pio/
+.vscode/
+*.chip.wasm
+wokwi-api.h
