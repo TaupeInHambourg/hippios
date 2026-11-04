@@ -1,0 +1,10 @@
+{
+  "name": "AD8232 ECG",
+  "author": "Hippios",
+  "pins": ["GND", "3V3", "OUTPUT", "LO_MINUS", "LO_PLUS", "SDN"],
+  "controls": [
+    { "id": "bpm", "label": "Fréquence cardiaque (BPM)", "type": "range", "min": 20, "max": 200, "step": 1 },
+    { "id": "noise", "label": "Bruit (V)", "type": "range", "min": 0, "max": 0.3, "step": 0.01 },
+    { "id": "leadsOff", "label": "Électrodes décollées (0/1)", "type": "range", "min": 0, "max": 1, "step": 1 }
+  ]
+}

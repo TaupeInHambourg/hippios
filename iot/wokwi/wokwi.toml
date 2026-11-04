@@ -1,0 +1,10 @@
+# Configuration de l'extension Wokwi pour VS Code
+[wokwi]
+version = 1
+firmware = '.pio/build/esp32dev/firmware.bin'
+elf = '.pio/build/esp32dev/firmware.elf'
+
+# Puce custom AD8232 (à compiler en .wasm, voir README)
+[[chip]]
+name = 'ad8232'
+binary = 'ad8232.chip.wasm'
